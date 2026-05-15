@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 260px; padding: 18px;
+      font-family: system-ui, -apple-system, sans-serif;
+      color: #1a1a1a;
+    }
+    h3 { font-size: 14px; font-weight: 700; color: #2e7d32; margin-bottom: 4px; }
+    p.sub { font-size: 11px; color: #999; margin-bottom: 14px; }
+    button {
+      width: 100%; padding: 10px; border: none; border-radius: 8px;
+      background: #2e7d32; color: #fff; font-size: 13px;
+      font-weight: 600; cursor: pointer; font-family: inherit;
+    }
+    button:hover { background: #1b5e20; }
+    button:disabled { background: #a5d6a7; cursor: not-allowed; }
+    #result { margin-top: 10px; font-size: 12px; text-align: center; min-height: 18px; }
+    #result.ok { color: #2e7d32; }
+    #result.warn { color: #e65100; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <h3>Notion Formula Copier</h3>
+  <p class="sub">Convert $…$ and $$…$$ on the current Notion page.</p>
+  <button id="convertBtn">Convert $$ → Equations</button>
+  <div id="result"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

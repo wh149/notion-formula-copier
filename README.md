@@ -1,52 +1,83 @@
 # Notion Formula Copier
 
-Chrome/Edge extension to batch-convert `$...$` and `$$...$$` into Notion equation blocks with one click.
+> Batch convert LaTeX math formulas to Notion equation blocks with one click.
+
+When you copy AI-generated content from **Gemini**, **ChatGPT**, or **Claude** into Notion, LaTeX math delimiters like `$$E=mc^2$$` and `$x^2 + y^2 = z^2$` stay as raw text instead of rendering as equations. This extension scans your Notion page and auto-converts every formula — **inline math** (`$…$`) and **display math** (`$$…$$`) — into native Notion equation blocks.
+
+## Features
+
+- **One-click batch conversion** — right-click on any Notion page or use the extension popup
+- **Block formulas** — converts `$$…$$` to Notion block equations via the `/block equation` slash command
+- **Inline formulas** — converts `$…$` to Notion inline equations via the `Ctrl+Shift+E` shortcut
+- **Safe character handling** — special characters like `<`, `>`, `&`, `_`, `{`, `}` are inserted through direct DOM manipulation, not HTML parsing
+- **Zero configuration** — works immediately after loading the extension
 
 ## Why
 
-AI chat outputs (Gemini, ChatGPT, Claude) often include LaTeX math delimiters, but Notion's paste handler prioritizes HTML over plain text, so `$$E=mc^2$$` stays as literal text instead of rendering as an equation. Manually selecting and pressing Ctrl+Shift+E for each formula is tedious.
+AI chatbots (Gemini, ChatGPT, Claude, DeepSeek, Kimi) output LaTeX-formatted math. When you paste this into Notion, the browser's rich-text clipboard bypasses Notion's Markdown parser. Your `$\frac{1}{n}$` stays as literal text. Manually selecting each formula and pressing `Ctrl+Shift+E` is slow. This extension automates the entire page in one pass.
 
-This extension automates it.
+## Supported Platforms
+
+Tested with LaTeX math output from:
+
+- **Google Gemini**
+- **ChatGPT / OpenAI**
+- **Claude (Anthropic)**
+- DeepSeek, Kimi, Qwen, and other LLMs that use `$` / `$$` KaTeX delimiters
+
+## Install
+
+### From Source
+
+```bash
+git clone git@github.com:wh149/notion-formula-copier.git
+```
+
+1. Open `edge://extensions` or `chrome://extensions`
+2. Enable **Developer mode**
+3. Click **Load unpacked** → select the cloned directory
+
+### From Browser Add-on Store
+
+- [Edge Add-ons](#) *(coming soon)*
+- [Chrome Web Store](#) *(coming soon)*
 
 ## Usage
 
 | Trigger | How |
 |---|---|
-| **Right-click** | On any notion.so page → `⚡ Convert $$ → Equations` |
-| **Extension popup** | Click the extension icon → `Convert $$ → Equations` |
+| **Right-click menu** | On any `notion.so` page → Right-click → `⚡ Convert $$ → Equations` |
+| **Extension popup** | Click the toolbar icon → `Convert $$ → Equations` |
 
-Block formulas (`$$...$$`) are converted via Notion's `/block equation` slash command. Inline formulas (`$...$`) via the `Ctrl+Shift+E` keyboard shortcut. The extension finds math input boxes, types the formula content, and confirms — all programmatically.
+The conversion processes formulas from bottom to top to preserve text offsets. A progress summary is shown after completion.
 
-## Install
-
-1. `edge://extensions` or `chrome://extensions`
-2. Enable **Developer mode**
-3. **Load unpacked** → select the project directory
-4. Refresh any open Notion tabs
-
-## How it works
+## How It Works
 
 ```
-$$p_k L_{k+1} < p_{k+1} L_k$$
-    ↓ scan contenteditable blocks with regex
-    ↓ select text → delete line → type /block equation
-    ↓ wait for equation input → type formula (safe DOM insertion)
-    ↓ Enter → done
+Paste text with $$p_k < p_{k+1}$$ into Notion
+    ↓
+Right-click → Convert $$ → Equations
+    ↓
+Scan contenteditable blocks for $...$ and $$...$$ patterns
+    ↓
+Inline: select text → Ctrl+Shift+E → type formula → Enter
+Block:  delete line → type /block equation → Enter → type formula → Enter
+    ↓
+All LaTeX math rendered as native Notion equations
 ```
 
-Keyboard events and text input are dispatched via `execCommand('insertText')` + `InputEvent`, which triggers React's event system in Notion's editor. Formula content with special characters (`<`, `>`, `&`, `_`, `{`, `}`) is inserted through direct DOM manipulation (`createTextNode` / `value` assignment) to avoid HTML parsing.
+Text input is dispatched via `execCommand('insertText')` + `InputEvent` to trigger React's event system in Notion's editor. Formula content with special characters is inserted through `createTextNode()` / `value` assignment to avoid HTML entity interpretation.
 
-## Files
+## Tech Stack
 
-```
-├── manifest.json          # MV3, contextMenus permission
-├── background.js          # Registers right-click context menu
-├── notion-convert.js      # Scan + convert engine (content script)
-├── popup.html             # Extension popup UI
-├── popup.js               # Popup logic
-└── icons/                 # SVG icons
-```
+- Manifest V3 (Chrome Extension)
+- JavaScript (no framework, no build step)
+- 5 files, ~270 lines of core logic
 
 ## Credits
 
 Conversion strategy adapted from [Notion-Formula-Auto-Conversion-Tool](https://github.com/skyance/Notion-Formula-Auto-Conversion-Tool).
+
+## License
+
+Apache 2.0

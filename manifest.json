@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "name": "Notion Formula Copier",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Batch convert LaTeX math formulas ($...$ and $$...$$) from Gemini, ChatGPT, Claude into Notion equation blocks. One-click auto-conversion for inline and display math.",
-  "permissions": ["contextMenus"],
+  "permissions": ["contextMenus", "clipboardRead", "clipboardWrite", "scripting"],
   "host_permissions": ["*://*.notion.so/*"],
   "action": {
     "default_popup": "popup.html",

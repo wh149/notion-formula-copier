@@ -39,8 +39,8 @@ git clone git@github.com:wh149/notion-formula-copier.git
 
 ### From Browser Add-on Store
 
-- [Edge Add-ons](#) *(coming soon)*
-- [Chrome Web Store](https://chromewebstore.google.com/detail/notion-formula-copier/ihgjbgdolkcnipledofdelcdebdaemjj?hl=zh-CN&authuser=0) *(coming soon)*
+- [Edge Add-ons](https://chromewebstore.google.com/detail/notion-formula-copier/ihgjbgdolkcnipledofdelcdebdaemjj?hl=zh-CN&authuser=0) 
+- [Chrome Web Store](https://chromewebstore.google.com/detail/notion-formula-copier/ihgjbgdolkcnipledofdelcdebdaemjj?hl=zh-CN&authuser=0)
 
 ## Usage
 
